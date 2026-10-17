@@ -195,6 +195,12 @@ class Converter:
         if group == GIF:
             return "ffmpeg"
         if group == DOC:
+            # txt 目标走轻量解析（快且稳），不绕 LibreOffice
+            if target_ext == "txt":
+                if src_ext == "docx" and self.deps.python_docx:
+                    return "docx_txt"
+                if src_ext in ("html", "htm"):
+                    return "html_txt"
             if self.deps.soffice:
                 return "office"
             if target_ext == "pdf" and src_ext == "docx":
@@ -204,8 +210,6 @@ class Converter:
                 if src_ext == "docx":
                     self._need_simple()
                     return "docx_txt"
-                if src_ext in ("html", "htm"):
-                    return "html_txt"
             self.deps.need_soffice()
         if group in (SHEET, SLIDES):
             self.deps.need_soffice()

@@ -24,7 +24,10 @@ class PdfBackend:
     ) -> None:
         if not self.deps.pymupdf:
             raise MissingDependency("处理 PDF 需要 PyMuPDF：pip install PyMuPDF")
-        import fitz  # type: ignore
+        try:
+            import pymupdf as fitz  # type: ignore
+        except ImportError:  # 兼容老版本 PyMuPDF
+            import fitz  # type: ignore
 
         try:
             doc = fitz.open(str(src))

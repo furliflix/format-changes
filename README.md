@@ -95,17 +95,23 @@ bash packaging/build_macos.sh
 
 `packaging/run_from_source.command` 双击即可运行源码版（首次会联网装依赖）。
 
-## 图标想自己画？（你有 Affinity 的话）
+## 图标说明
 
-当前图标是程序自动画的（渐变底 + 转换箭头⇄）。想换成自己设计的：
+当前图标由脚本绘制：**黑白配色（黑底白箭头 ⇄）**，4 倍超采样，小尺寸下也很清晰。
 
-- 用 Affinity Designer 画一个 **1024×1024** 的画布；
-- 图案内容控制在中间 **约 830×830** 范围内（四周留 ~96px 空白，符合 macOS 图标规范）；
-- 透明背景导出 PNG，覆盖 `assets/icon_1024.png`；
-- 然后跑一次 `python packaging/make_icon.py`，会自动生成 PNG / ICO / iconset 全部尺寸；
+想换风格或配色，一行命令重新生成（PNG / ICO / iconset 全套尺寸）：
+
+```bash
+python packaging/make_icon.py --scheme light    # 白底黑箭头
+python packaging/make_icon.py --style cycle     # 环形循环箭头
+python packaging/make_icon.py --scheme blue     # 蓝紫渐变色
+```
+
+想换成自己画的设计（Affinity 等）：
+
+- 画布 **1024×1024**、透明背景，图案控制在中间 **约 830×830** 内（四周留 ~96px，符合 macOS 图标规范）；
+- 导出 PNG 后运行：`python packaging/make_icon.py --from 你的图.png`；
 - 重新打包即可（macOS 打包脚本会自动用 iconutil 生成 .icns）。
-
-参考配色：渐变从 `#2E6BE6`（蓝）到 `#7C3AED`（紫）。
 
 ## 打包前自定义（重要）
 

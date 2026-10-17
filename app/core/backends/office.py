@@ -33,6 +33,17 @@ LO_FILTERS: dict[str, str | None] = {
 LO_TIMEOUT = 600  # 秒
 
 
+def _shared_lo_profile() -> Path:
+    """LibreOffice 用户配置目录（全 app 复用，避免每次转换都重新初始化）。
+
+    首次使用会花几十秒建立配置，之后每次转换都快得多；
+    放在系统临时目录里，被清理后会自动重建。
+    """
+    d = Path(tempfile.gettempdir()) / "FormatChanges" / "lo-profile"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
 class OfficeBackend:
     def __init__(self, deps: Deps):
         self.deps = deps
@@ -54,9 +65,8 @@ class OfficeBackend:
             tdp = Path(td)
             outdir = tdp / "out"
             outdir.mkdir()
-            profile = tdp / "profile"
-            profile.mkdir()
             logfile = tdp / "lo.log"
+            profile = _shared_lo_profile()
 
             filt = LO_FILTERS.get(target)
             attempts = ([filt] if filt else []) + [target]  # 第二遍用扩展名兜底

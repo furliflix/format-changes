@@ -241,7 +241,7 @@ class Deps:
             ffmpeg=detect_ffmpeg(),
             soffice=find_soffice(),
             pillow=_has_module("PIL"),
-            pymupdf=_has_module("fitz"),
+            pymupdf=_has_module("pymupdf") or _has_module("fitz"),
             python_docx=_has_module("docx"),
             reportlab=_has_module("reportlab"),
             pillow_heif=_has_module("pillow_heif"),
