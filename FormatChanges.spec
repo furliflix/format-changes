@@ -102,7 +102,7 @@ if sys.platform == "darwin":
         bundle_identifier="com.formatchanges.app",
         info_plist={
             "CFBundleDisplayName": "Format Changes",
-            "CFBundleName": APP_SLUG,
+            "CFBundleName": "Format Changes",
             "CFBundleShortVersionString": APP_VERSION,
             "CFBundleVersion": APP_VERSION,
             "CFBundleDevelopmentRegion": "zh_CN",

@@ -68,8 +68,9 @@ Windows 上没法直接生成 macOS 的 `.app`，但 **git 仓库推上去后，
 
 1. 在 GitHub 建一个仓库（公开/私有都行），把本项目所有文件传上去；
 2. 打开仓库页面 → **Actions** 标签 → 左侧「构建 macOS 应用」→ **Run workflow**；
-3. 等 5~10 分钟，构建完成后在该次运行页面最下方下载 **FormatChanges-macOS** 产物（一个 zip）；
-4. 把 zip 直接发给老师（AirDrop / 微信 / 网盘都行）。
+3. 等 5~10 分钟，构建完成后在该次运行页面最下方下载 **FormatChanges-macOS** 产物（含 dmg 和 zip）；
+4. 首选把 **dmg** 发给老师（打开后把 App 拖进「应用程序」即安装）；也可以直接把 Release 链接发给老师
+   （免登录、永久有效）：https://github.com/furliflix/format-changes/releases/latest
 
 默认构建的是 Apple 芯片（M1/M2/M3…）版本。如果老师是老的 Intel Mac，
 把 `.github/workflows/build-macos.yml` 里的 `runs-on: macos-14` 改成 `macos-13` 再跑一次。
@@ -80,7 +81,7 @@ Windows 上没法直接生成 macOS 的 `.app`，但 **git 仓库推上去后，
 bash packaging/build_macos.sh
 ```
 
-产出 `dist/FormatChanges-macOS-<架构>.zip`（内含 App 和一份给老师的说明），直接发给老师。
+产出 `dist/FormatChanges-<架构>.dmg`（推荐，拖进「应用程序」即安装）和 `dist/FormatChanges-macOS-<架构>.zip`（备用，内含 App 和说明）。
 
 ### 老师第一次打开被系统拦怎么办？
 

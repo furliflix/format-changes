@@ -43,15 +43,25 @@ jobs:
       - name: 打包压缩包（含给老师的说明）
         run: |
           mkdir -p "dist/发送给老师"
-          cp -R dist/FormatChanges.app "dist/发送给老师/"
+          ditto "dist/FormatChanges.app" "dist/发送给老师/Format Changes.app"
           cp "packaging/给老师的说明.txt" "dist/发送给老师/"
           ditto -c -k --sequesterRsrc --keepParent "dist/发送给老师" "dist/FormatChanges-macOS.zip"
+
+      - name: 制作 DMG 安装包（打开后拖进「应用程序」即安装）
+        run: |
+          mkdir -p dmg_stage
+          ditto "dist/FormatChanges.app" "dmg_stage/Format Changes.app"
+          cp "packaging/给老师的说明.txt" dmg_stage/
+          ln -s /Applications dmg_stage/Applications
+          hdiutil create -volname "Format Changes" -srcfolder dmg_stage -ov -format UDZO "dist/FormatChanges.dmg"
 
       - name: 上传构建产物
         uses: actions/upload-artifact@v7
         with:
           name: FormatChanges-macOS
-          path: dist/FormatChanges-macOS.zip
+          path: |
+            dist/FormatChanges-macOS.zip
+            dist/FormatChanges.dmg
           retention-days: 30
 
       - name: 发布免登录下载链接（Releases）
@@ -59,7 +69,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release delete latest --yes --cleanup-tag 2>/dev/null || true
-          gh release create latest "dist/FormatChanges-macOS.zip" \
+          gh release create latest "dist/FormatChanges.dmg" "dist/FormatChanges-macOS.zip" \
             --title "Format Changes · 最新 macOS 版" \
-            --notes "下载解压后，把「发送给老师」文件夹里的 App 拖入「应用程序」。首次打开请右键 App → 打开。" \
+            --notes "推荐下载 FormatChanges.dmg：打开后把 App 拖进「应用程序」即可安装。zip 解压后用法相同。首次打开请右键 App → 打开。" \
             --latest
