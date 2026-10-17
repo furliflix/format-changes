@@ -1,0 +1,52 @@
+name: 构建 macOS 应用
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+    tags: [ "v*" ]
+
+jobs:
+  build-macos:
+    # Apple 芯片（M 系列）用 macos-14；
+    # 如果老师的 Mac 是 Intel 芯片（2019 年及更早），把下面改成 macos-13
+    runs-on: macos-14
+    timeout-minutes: 40
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt -r requirements-build.txt
+
+      - name: 生成图标
+        run: |
+          python packaging/make_icon.py
+          iconutil -c icns packaging/AppIcon.iconset -o assets/AppIcon.icns
+
+      - name: 自检（真实转换各种格式）
+        run: python tests/smoke_cli.py
+
+      - name: PyInstaller 打包
+        run: python -m PyInstaller --noconfirm --clean FormatChanges.spec
+
+      - name: 打包压缩包（含给老师的说明）
+        run: |
+          mkdir -p "dist/发送给老师"
+          cp -R dist/FormatChanges.app "dist/发送给老师/"
+          cp "packaging/给老师的说明.txt" "dist/发送给老师/"
+          ditto -c -k --sequesterRsrc --keepParent "dist/发送给老师" "dist/FormatChanges-macOS.zip"
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: FormatChanges-macOS
+          path: dist/FormatChanges-macOS.zip
+          retention-days: 30

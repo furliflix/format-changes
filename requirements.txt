@@ -1,0 +1,22 @@
+# Format Changes 运行依赖
+# 安装：pip install -r requirements.txt
+
+# —— 图形界面（跨平台桌面 App）——
+# 只要基础组件（QtCore / QtGui / QtWidgets），
+# 不装带浏览器内核（WebEngine）的完整 PySide6，能省 180MB 以上
+PySide6-Essentials>=6.8
+
+# —— 图片转换 ——
+Pillow>=10.4
+
+# —— 音视频转换：自带静态 FFmpeg 可执行文件，无需单独安装 ——
+imageio-ffmpeg>=0.5.1
+
+# —— PDF 读取（PDF → 文本 / Word）——
+PyMuPDF>=1.24
+
+# —— Word 文档解析（未安装 LibreOffice 时的"基础模式"）——
+python-docx>=1.1
+
+# —— PDF 生成（未安装 LibreOffice 时的"基础模式"）——
+reportlab>=4.2

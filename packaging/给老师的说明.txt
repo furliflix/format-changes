@@ -1,0 +1,50 @@
+================  Format Changes · 使用说明  ================
+
+老师您好！
+
+这是一个小小的格式转换工具：音频、视频、图片、文档都能互相转换，
+做课件、整理资料的时候应该用得上 :)
+
+
+【怎么用】
+
+1. 打开「Format Changes」；
+2. 把文件（或整个文件夹）拖进窗口，点击窗口也能选择文件；
+3. 在「转换为」那一列选择想转成的格式；
+4. 点右下角「开始转换」；
+5. 转好的文件默认放在原来的文件夹里，双击列表里的「完成 ✓」可以直接打开。
+
+
+【第一次打开被 macOS 拦住了？】
+
+因为这是学生自己做的小程序，没有花钱做苹果签名，系统会提示"无法验证开发者"：
+    · 在 App 上「右键」→「打开」→ 再点一次「打开」即可；
+    · 或者打开「终端」，输入：
+          xattr -cr "/Applications/Format Changes.app"
+      回车即可。之后就可以正常双击打开了。
+
+
+【关于 Word / Excel / PPT 转换】
+
+本工具处理办公文档时，会借用免费的 LibreOffice 引擎（安装一次即可，
+之后转换过程全自动，不需要打开它）：
+
+    · 官网免费下载：https://zh-cn.libreoffice.org/download/
+    · 或用 Homebrew：brew install --cask libreoffice
+
+没安装 LibreOffice 也可以把 Word（docx）转成 PDF 或 TXT，
+只是复杂排版（图片、特殊字体）会被简化。其余格式（音视频、图片、PDF 提取）
+不需要任何额外安装。
+
+
+【支持的格式一览】
+
+  音频：  MP3 / OGG / WAV / FLAC / M4A / AAC / OPUS / WMA
+  视频：  MP4 / MKV / MOV / WEBM / AVI / WMV / FLV / GIF，还能从视频里提取音频
+  图片：  PNG / JPG / WEBP / BMP / TIFF / ICO / PDF
+  文档：  Word ⇄ PDF / ODT / RTF / TXT / HTML；表格、PPT → PDF
+  PDF：   提取文字为 TXT、转成 Word
+
+祝您工作顺利！
+
+                                    —— 由您的学生制作

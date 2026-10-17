@@ -1,0 +1,5 @@
+# 保证在 macOS 上能正常双击运行
+*.sh text eol=lf
+*.command text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf

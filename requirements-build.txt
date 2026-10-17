@@ -1,0 +1,3 @@
+# 打包成独立应用（macOS .app / Windows .exe）时额外需要
+# 安装：pip install -r requirements-build.txt
+pyinstaller>=6.10
