@@ -6,6 +6,9 @@ on:
     branches: [ main, master ]
     tags: [ "v*" ]
 
+permissions:
+  contents: write
+
 jobs:
   build-macos:
     # Apple 芯片（M 系列）用 macos-14；
@@ -50,3 +53,13 @@ jobs:
           name: FormatChanges-macOS
           path: dist/FormatChanges-macOS.zip
           retention-days: 30
+
+      - name: 发布免登录下载链接（Releases）
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag 2>/dev/null || true
+          gh release create latest "dist/FormatChanges-macOS.zip" \
+            --title "Format Changes · 最新 macOS 版" \
+            --notes "下载解压后，把「发送给老师」文件夹里的 App 拖入「应用程序」。首次打开请右键 App → 打开。" \
+            --latest
